@@ -11,12 +11,11 @@
     <!-- Publishing settings -->
     <IsAotCompatible>true</IsAotCompatible>
     <PublishSingleFile>false</PublishSingleFile>
-    <SelfContained>false</SelfContained>
     <PublishReadyToRun>false</PublishReadyToRun>
-    <PublishTrimmed>false</PublishTrimmed>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <DebugType>embedded</DebugType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PublishAot>true</PublishAot>
   </PropertyGroup>
 
   <!-- Debug configuration -->
@@ -61,20 +60,71 @@
     <PackageReference Include="Microsoft.Identity.Client.Broker" />
     <PackageReference Include="ModelContextProtocol" />
     <PackageReference Include="ModelContextProtocol.AspNetCore" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
     <PackageReference Include="Microsoft.Azure.Cosmos" GeneratePathProperty="true" ExcludeAssets="native" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Npgsql" />
     <PackageReference Include="System.CommandLine" />
-    <PackageReference Include="System.Formats.Asn1" />
     <PackageReference Include="System.Linq.AsyncEnumerable" />
     <PackageReference Include="System.Net.ServerSentEvents" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" />
     <PackageReference Include="Microsoft.Extensions.Azure" />
 	<PackageReference Include="Azure.Search.Documents" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <CustomNewtonsoftJsonDll>/home/svbomer/src/Newtonsoft.Json/Src/Newtonsoft.Json/bin/Release/netstandard2.0/Newtonsoft.Json.dll</CustomNewtonsoftJsonDll>
+  </PropertyGroup>
+
+  <Target Name="OverrideNewtonsoftJsonInResolvedAssets"
+          AfterTargets="ResolveLockFileCopyLocalFiles"
+          Condition="Exists('$(CustomNewtonsoftJsonDll)')">
+
+    <ItemGroup>
+      <!-- Remove Newtonsoft.Json resolved from NuGet (v13.0.3) -->
+      <_ResolvedCopyLocalBuildAssets Remove="@(_ResolvedCopyLocalBuildAssets)" Condition="'%(Filename)' == 'Newtonsoft.Json'" />
+
+      <!-- Inject custom Newtonsoft.Json.dll as if it was resolved normally -->
+      <_ResolvedCopyLocalBuildAssets Include="$(CustomNewtonsoftJsonDll)">
+        <CopyLocal>true</CopyLocal>
+        <Private>true</Private>
+        <OriginalItemSpec>Newtonsoft.Json</OriginalItemSpec>
+        <DestinationSubPath>Newtonsoft.Json.dll</DestinationSubPath>
+        <IsRuntimeAsset>true</IsRuntimeAsset>
+        <IsTrimmable>true</IsTrimmable>
+      </_ResolvedCopyLocalBuildAssets>
+    </ItemGroup>
+  </Target>
+
+
+  <PropertyGroup>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+  </PropertyGroup>
+
+  <!-- Get single warnings for one assembly at a time. Newtonsoft.Json in this case. -->
+  <Target Name="SetTrimmerSingleWarn" BeforeTargets="PrepareForILLink">
+    <ItemGroup>
+      <ManagedAssemblyToLink Update="@(ManagedAssemblyToLink)" Condition="'%(Filename)' == 'Newtonsoft.Json'">
+        <TrimmerSingleWarn>false</TrimmerSingleWarn>
+      </ManagedAssemblyToLink>
+    </ItemGroup>
+  </Target>
+
+
+  <!-- Set feature switches in Newtonsoft.Json -->
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="Newtonsoft.Json.Linq.JToken.DynamicIsSupported" Value="false" Trim="true" />
+    <RuntimeHostConfigurationOption Include="Newtonsoft.Json.Linq.JToken.SerializationIsSupported" Value="false" Trim="true" />
+  </ItemGroup>
+
+
+  <!-- <ItemGroup>
+    <ProjectReference Include="/home/svbomer/src/Newtonsoft.Json/Src/Newtonsoft.Json/Newtonsoft.Json.csproj" />
+  </ItemGroup> -->
+
+
+  <ItemGroup>
+    <ProjectReference Include="/home/svbomer/src/azure-sdk-for-net/sdk/resourcemanager/Azure.ResourceManager/src/Azure.ResourceManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>

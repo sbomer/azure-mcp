@@ -3,7 +3,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Azure.Core" Version="1.45.0" />
+    <PackageVersion Include="Azure.Core" Version="1.46.1" />
     <PackageVersion Include="Azure.Data.AppConfiguration" Version="1.6.0" />
     <PackageVersion Include="Azure.Identity" Version="1.13.2" />
     <PackageVersion Include="Azure.Data.Tables" Version="12.10.0" />
