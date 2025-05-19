@@ -64,8 +64,6 @@
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Npgsql" />
     <PackageReference Include="System.CommandLine" />
-    <PackageReference Include="System.Linq.AsyncEnumerable" />
-    <PackageReference Include="System.Net.ServerSentEvents" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" />
     <PackageReference Include="Microsoft.Extensions.Azure" />
@@ -73,7 +71,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <CustomNewtonsoftJsonDll>/home/svbomer/src/Newtonsoft.Json/Src/Newtonsoft.Json/bin/Release/netstandard2.0/Newtonsoft.Json.dll</CustomNewtonsoftJsonDll>
+    <CustomNewtonsoftJsonDll>$(MSBuildThisFileDirectory)../../Newtonsoft.Json/Src/Newtonsoft.Json/bin/Release/netstandard2.0/Newtonsoft.Json.dll</CustomNewtonsoftJsonDll>
   </PropertyGroup>
 
   <Target Name="OverrideNewtonsoftJsonInResolvedAssets"
@@ -122,9 +120,8 @@
     <ProjectReference Include="/home/svbomer/src/Newtonsoft.Json/Src/Newtonsoft.Json/Newtonsoft.Json.csproj" />
   </ItemGroup> -->
 
-
   <ItemGroup>
-    <ProjectReference Include="/home/svbomer/src/azure-sdk-for-net/sdk/resourcemanager/Azure.ResourceManager/src/Azure.ResourceManager.csproj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)../../azure-sdk-for-net/sdk/resourcemanager/Azure.ResourceManager/src/Azure.ResourceManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>
