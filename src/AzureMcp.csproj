@@ -79,6 +79,8 @@
           AfterTargets="ResolveLockFileCopyLocalFiles"
           Condition="Exists('$(CustomNewtonsoftJsonDll)')">
 
+    <Error Condition="!Exists('$(CustomNewtonsoftJsonDll)')" Text="Custom Newtonsoft.Json.dll not found at $(CustomNewtonsoftJsonDll)" />
+
     <ItemGroup>
       <!-- Remove Newtonsoft.Json resolved from NuGet (v13.0.3) -->
       <_ResolvedCopyLocalBuildAssets Remove="@(_ResolvedCopyLocalBuildAssets)" Condition="'%(Filename)' == 'Newtonsoft.Json'" />
@@ -98,6 +100,9 @@
   <Target Name="OverrideCosmosDirectAssembly"
           AfterTargets="ResolveLockFileCopyLocalFiles"
           Condition="Exists('$(CustomCosmosDirectDll)')">
+
+    <Error Condition="!Exists('$(CustomCosmosDirectDll)')" Text="Custom Microsoft.Azure.Cosmos.Direct.dll not found at $(CustomCosmosDirectDll)" />
+
     <ItemGroup>
       <_ResolvedCopyLocalBuildAssets Remove="@(_ResolvedCopyLocalBuildAssets)" Condition="'%(Filename)' == 'Microsoft.Azure.Cosmos.Direct'" />
       <_ResolvedCopyLocalBuildAssets Include="$(CustomCosmosDirectDll)">
