@@ -72,7 +72,6 @@
 
   <PropertyGroup>
     <CustomNewtonsoftJsonDll>$(MSBuildThisFileDirectory)../../Newtonsoft.Json/Src/Newtonsoft.Json/bin/Release/netstandard2.0/Newtonsoft.Json.dll</CustomNewtonsoftJsonDll>
-    <CustomCosmosDirectDll>$(MSBuildThisFileDirectory)..\..\..\CosmosDB\bin\x64\Debug\Product\Microsoft.Azure.Cosmos.Direct\Microsoft.Azure.Cosmos.Direct.dll</CustomCosmosDirectDll>
   </PropertyGroup>
 
   <Target Name="OverrideNewtonsoftJsonInResolvedAssets"
@@ -91,25 +90,6 @@
         <Private>true</Private>
         <OriginalItemSpec>Newtonsoft.Json</OriginalItemSpec>
         <DestinationSubPath>Newtonsoft.Json.dll</DestinationSubPath>
-        <IsRuntimeAsset>true</IsRuntimeAsset>
-        <IsTrimmable>true</IsTrimmable>
-      </_ResolvedCopyLocalBuildAssets>
-    </ItemGroup>
-  </Target>
-
-  <Target Name="OverrideCosmosDirectAssembly"
-          AfterTargets="ResolveLockFileCopyLocalFiles"
-          Condition="Exists('$(CustomCosmosDirectDll)')">
-
-    <Error Condition="!Exists('$(CustomCosmosDirectDll)')" Text="Custom Microsoft.Azure.Cosmos.Direct.dll not found at $(CustomCosmosDirectDll)" />
-
-    <ItemGroup>
-      <_ResolvedCopyLocalBuildAssets Remove="@(_ResolvedCopyLocalBuildAssets)" Condition="'%(Filename)' == 'Microsoft.Azure.Cosmos.Direct'" />
-      <_ResolvedCopyLocalBuildAssets Include="$(CustomCosmosDirectDll)">
-        <CopyLocal>true</CopyLocal>
-        <Private>true</Private>
-        <OriginalItemSpec>Microsoft.Azure.Cosmos.Direct</OriginalItemSpec>
-        <DestinationSubPath>Microsoft.Azure.Cosmos.Direct.dll</DestinationSubPath>
         <IsRuntimeAsset>true</IsRuntimeAsset>
         <IsTrimmable>true</IsTrimmable>
       </_ResolvedCopyLocalBuildAssets>
@@ -143,6 +123,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(MSBuildThisFileDirectory)../../azure-sdk-for-net/sdk/resourcemanager/Azure.ResourceManager/src/Azure.ResourceManager.csproj" />
+    <ProjectReference Include="$(MSbuildThisFileDirectory)../../azure-cosmos-dotnet-v3/Microsoft.Azure.Cosmos/src/Microsoft.Azure.Cosmos.csproj" />
   </ItemGroup>
 
   <ItemGroup>
