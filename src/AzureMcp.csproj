@@ -72,7 +72,7 @@
 
   <PropertyGroup>
     <CustomNewtonsoftJsonDll>$(MSBuildThisFileDirectory)../../Newtonsoft.Json/Src/Newtonsoft.Json/bin/Release/netstandard2.0/Newtonsoft.Json.dll</CustomNewtonsoftJsonDll>
-    <CustomCosmosDirectDll>$(MSBuildThisFileDirectory)..\CosmosDB\bin\x64\Debug\Product\Microsoft.Azure.Cosmos.Direct\Microsoft.Azure.Cosmos.Direct.dll</CustomCosmosDirectDll>
+    <CustomCosmosDirectDll>$(MSBuildThisFileDirectory)..\..\..\CosmosDB\bin\x64\Debug\Product\Microsoft.Azure.Cosmos.Direct\Microsoft.Azure.Cosmos.Direct.dll</CustomCosmosDirectDll>
   </PropertyGroup>
 
   <Target Name="OverrideNewtonsoftJsonInResolvedAssets"
