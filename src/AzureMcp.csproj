@@ -16,6 +16,8 @@
     <DebugType>embedded</DebugType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PublishAot>true</PublishAot>
+    <!-- Re-enable STJ reflection-based serialization so we can focus on Newtonsoft.Json failures for now. -->
+    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
   </PropertyGroup>
 
   <!-- Debug configuration -->
